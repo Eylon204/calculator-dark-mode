@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apple Style Dark Mode Calculator</title>
+    <link rel="stylesheet" href="style.css"> <!-- קישור לקובץ ה-CSS החיצוני -->
+</head>
+<body>
+    <div id="calculator">
+        <input id="res" value="0" readonly>
+        <div class="button-container">
+            <button onclick="clearInput()" id="clear">C</button>
+            <button style="visibility: hidden;"></button>
+            <button style="visibility: hidden;"></button>
+            <button onclick="fractional()" class="operator">/</button>
+            <button onclick="digit(7)">7</button>
+            <button onclick="digit(8)">8</button>
+            <button onclick="digit(9)">9</button>
+            <button onclick="times()" class="operator">*</button>
+            <button onclick="digit(4)">4</button>
+            <button onclick="digit(5)">5</button>
+            <button onclick="digit(6)">6</button>
+            <button onclick="minus()" class="operator">-</button>
+            <button onclick="digit(1)">1</button>
+            <button onclick="digit(2)">2</button>
+            <button onclick="digit(3)">3</button>
+            <button onclick="plus()" class="operator">+</button>
+            <button style="visibility: hidden;"></button>
+            <button onclick="digit(0)">0</button>
+            <button style="visibility: hidden;"></button>
+            <button onclick="equals()" class="operator">=</button>
+        </div>
+    </div>
+
+    <script>
+        let clearFlag = false;
+        let firstNumber = 0;
+        let operator = null;
+
+        function plus() {
+            firstNumber = parseFloat(res.value);
+            clearFlag = true;
+            operator = '+';
+        }
+
+        function minus() {
+            firstNumber = parseFloat(res.value);
+            clearFlag = true;
+            operator = '-';
+        }
+
+        function times() {
+            firstNumber = parseFloat(res.value);
+            clearFlag = true;
+            operator = '*';
+        }
+
+        function fractional() {
+            firstNumber = parseFloat(res.value);
+            clearFlag = true;
+            operator = '/';
+        }
+
+        function equals() {
+            if (operator !== null) {
+                let secondNumber = parseFloat(res.value);
+                let result;
+                if (operator === '+') {
+                    result = firstNumber + secondNumber;
+                } else if (operator === '-') {
+                    result = firstNumber - secondNumber;
+                } else if (operator === '*') {
+                    result = firstNumber * secondNumber;
+                } else if (operator === '/') {
+                    if (secondNumber === 0) {
+                        result = 'Error'; // כדי למנוע חילוק באפס
+                    } else {
+                        result = firstNumber / secondNumber;
+                    }
+                }
+                res.value = result;
+                clearFlag = true;
+                operator = null;
+            }
+        }
+
+        function clearInput() {
+            res.value = "0";
+            firstNumber = 0;
+            operator = null;
+            clearFlag = false;
+        }
+
+        function digit(digit) {
+            if (res.value === "0" || clearFlag) {
+                res.value = "";
+                clearFlag = false;
+            }
+            if (res.value.length < 9) {
+                res.value += digit;
+            }
+        }
+    </script>
+</body>
+</html>
